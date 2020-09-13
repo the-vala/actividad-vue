@@ -63,15 +63,13 @@
       </div>
       <div class="col-md-12">
         <div class="card" v-if="show">
-          <img :src="getImgUrl(selectedImage)" :height="size" :width="size"/>
-          <v-card-text>
-          <v-slider
-            v-model="size"
-            append-icon="zoom_in"
-            prepend-icon="zoom_out"
-            @click:append="increaseSize"
-            @click:prepend="reduceSize"></v-slider>
-        </v-card-text>
+          <span class="img-container">
+            <img :src="getImgUrl(selectedImage)" :height="size" :width="size"/>
+          </span>
+          <div>
+            <Button class="btn btn-success" @click="reduceSize">Decrease Size</Button>
+            <Button class="btn btn-success" @click="increaseSize">Increase Size</Button>
+          </div>
         </div>
       </div>
       <br>
@@ -132,7 +130,9 @@ export default {
       this.size = (this.size - 100) || 100;
     },
     increaseSize() {
-      this.size = (this.size + 100) || 1000;
+      if (this.size < 500) {
+        this.size = (this.size + 100);
+      }
     },
   },
 };
@@ -154,5 +154,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.img-container {
+  text-align: center;
 }
 </style>
