@@ -101,11 +101,16 @@
           <br>
         </div>
         <div class="card" v-if="show == 'service'">
-          <h1>2 Way Binded Message</h1>
-          <span>
-            <textarea v-model="inputMessage" placeholder="Your message"></textarea>
-          </span>
-          <p>Message: {{ inputMessage }}</p>
+          <h2>Services</h2>
+          <ul class="list-group" v-if="list">
+            <li class="list-group-item vue-list" @click="refreshSum(elem.text)"
+            v-bind:class=
+            "[elem.set ? 'list-group-item-success' : 'list-group-item-danger']"
+            v-for="elem in sumElem" :key="elem.text">
+              <span>{{ elem.text }} {{ elem.value }}</span>
+            </li>
+          </ul>
+          <p>TOTAL: {{this.sum}}</p>
         </div>
       </div>
     </div>
@@ -117,9 +122,9 @@ export default {
   name: 'Actividad',
   data() {
     return {
-      inputMessage: '',
       list: true,
       show: 'home',
+      sum: 0,
       size: 100,
       listElem: [
         { text: 'Swift', img: 'swift.jpg' },
@@ -136,15 +141,20 @@ export default {
     };
   },
   methods: {
-    showImage(event) {
-      event.preventDefault();
-      if (event) {
-        this.$set(this.$data, 'show', !this.show);
-      }
-    },
     switchList() {
       event.preventDefault();
       this.list = !this.list;
+    },
+    refreshSum(text) {
+      this.sum = 0;
+      for (let i = 0; i < this.sumElem.length; i += 1) {
+        if (this.sumElem[i].text === text) {
+          this.sumElem[i].set = !this.sumElem[i].set;
+        }
+        if (this.sumElem[i].set) {
+          this.sum += this.sumElem[i].value;
+        }
+      }
     },
     getImgUrl(logo) {
       const images = require.context('../assets/', false, /\.*$/);
