@@ -1,6 +1,6 @@
 # vue-practice
 
-> Desarrollo en vue para el laboratorio de web
+> Actividad de Vue JS
 
 ## Build Setup
 
